@@ -1,4 +1,4 @@
-package com.zrj.abitrarynote;
+package com.zrj.arbitrarynote;
 
 import org.junit.Test;
 

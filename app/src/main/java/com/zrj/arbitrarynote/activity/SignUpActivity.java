@@ -1,11 +1,10 @@
-package com.zrj.abitrarynote.activity;
+package com.zrj.arbitrarynote.activity;
 
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.zrj.abitrarynote.R;
-import com.zrj.abitrarynote.fragment.VerificationCodeFragment;
+import com.zrj.arbitrarynote.R;
+import com.zrj.arbitrarynote.fragment.VerificationCodeFragment;
 
 public class SignUpActivity extends AppCompatActivity {
 

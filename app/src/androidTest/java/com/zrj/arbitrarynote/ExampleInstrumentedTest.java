@@ -1,4 +1,4 @@
-package com.zrj.abitrarynote;
+package com.zrj.arbitrarynote;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.zrj.abitrarynote", appContext.getPackageName());
+        assertEquals("com.zrj.arbitrarynote", appContext.getPackageName());
     }
 }
