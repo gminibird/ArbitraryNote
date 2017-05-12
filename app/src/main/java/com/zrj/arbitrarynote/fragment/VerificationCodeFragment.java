@@ -1,7 +1,7 @@
 package com.zrj.arbitrarynote.fragment;
 
 import android.app.Activity;
-import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,6 +23,7 @@ import com.zrj.arbitrarynote.R;
 import com.zrj.arbitrarynote.activity.LoginActivity;
 import com.zrj.arbitrarynote.activity.ResetPasswordActivity;
 import com.zrj.arbitrarynote.activity.SignUpActivity;
+import com.zrj.arbitrarynote.bmob.BmobUtil;
 import com.zrj.arbitrarynote.bmob.User;
 
 import java.util.List;
@@ -32,7 +33,6 @@ import java.util.regex.Pattern;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobSMS;
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
@@ -54,13 +54,13 @@ public class VerificationCodeFragment extends Fragment implements View.OnClickLi
     private Button back;
     private Button submit;
     private Context mContext;
-    private final String APP_ID = "55d899d33f17878859b67be3d5f02401";
+    private ProgressDialog progressDialog;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
-        Bmob.initialize(context, APP_ID);
+        Bmob.initialize(context, BmobUtil.APP_ID);
     }
 
     @Nullable
@@ -91,24 +91,35 @@ public class VerificationCodeFragment extends Fragment implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.request_verification_code:
-                BmobSMS.requestSMSCode(phoneNumber.getText().toString(), "随心记", new QueryListener<Integer>() {
-                    @Override
-                    public void done(Integer integer, BmobException e) {
-                        if (e == null) {
-                            Toast.makeText(mContext, "获取验证码成功", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(mContext, "获取验证码失败", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                requestSMSCode();
                 break;
             case R.id.back_verification:
                 ((Activity) mContext).finish();
                 break;
             case R.id.commit_verification:
-                commitVerification();
+                commit();
                 break;
         }
+    }
+
+    private void requestSMSCode() {
+        showProgressDialog("正在获取...");
+        BmobSMS.requestSMSCode(phoneNumber.getText().toString(), "随心记", new QueryListener<Integer>() {
+            @Override
+            public void done(Integer integer, BmobException e) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        closeProgressDialog();
+                    }
+                });
+                if (e == null) {
+                    Toast.makeText(mContext, "获取验证码成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    BmobUtil.handleException(mContext, e, "获取验证码失败");
+                }
+            }
+        });
     }
 
     private void addEditTextChangedListener() {
@@ -138,12 +149,12 @@ public class VerificationCodeFragment extends Fragment implements View.OnClickLi
         }
     }
 
-    private void commitVerification() {
+    private void commit() {
         if (phoneNumber != null && verificationCode != null && password != null && passwordConfirmed != null) {
             final String userAccount = phoneNumber.getText().toString();
             final String password = VerificationCodeFragment.this.password.getText().toString();
             String passwordConfirmed = VerificationCodeFragment.this.passwordConfirmed.getText().toString();
-            if (!password.equals("") &&password.equals(passwordConfirmed)) {
+            if (!password.equals("") && password.equals(passwordConfirmed)) {
                 String REGEX = "[^0-9][^a-z][^A-Z][^~`!@#$%^&*-=+_()?.,:;'\"]";
                 Pattern pattern = Pattern.compile(REGEX);
                 Matcher matcher = pattern.matcher(password);
@@ -151,6 +162,7 @@ public class VerificationCodeFragment extends Fragment implements View.OnClickLi
                     String illegalText = "使用非法字符“" + password.substring(matcher.start(), matcher.end()) + "”";
                     Toast.makeText(mContext, illegalText, Toast.LENGTH_SHORT).show();
                 } else {
+                    showProgressDialog("请稍后...");
                     BmobSMS.verifySmsCode(userAccount, verificationCode.getText().toString(), new UpdateListener() {
                         @Override
                         public void done(BmobException e) {
@@ -162,50 +174,61 @@ public class VerificationCodeFragment extends Fragment implements View.OnClickLi
                                     user.signUp(new SaveListener<User>() {
                                         @Override
                                         public void done(User user, BmobException e) {
-                                            if (e==null){
-                                                setDialog("注册成功");
-                                            }else{
-                                                if (e.getErrorCode()==202){
-                                                    Toast.makeText(mContext,"用户已存在",Toast.LENGTH_SHORT).show();
-                                                }else{
-                                                    Toast.makeText(mContext,"注册失败",Toast.LENGTH_SHORT).show();
+                                            getActivity().runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    closeProgressDialog();
                                                 }
+                                            });
+                                            if (e == null) {
+                                                setDialog("注册成功");
+                                            } else {
+                                                BmobUtil.handleException(mContext, e, "注册失败");
                                             }
                                         }
                                     });
                                 } else if (mContext instanceof ResetPasswordActivity) {
-                                    BmobQuery<User> query = new BmobQuery<User>();
-                                    query.addWhereEqualTo("username",userAccount)
+                                    BmobQuery<User> query = new BmobQuery<>();
+                                    query.addWhereEqualTo("username", userAccount)
                                             .findObjects(new FindListener<User>() {
                                                 @Override
                                                 public void done(List<User> list, BmobException e) {
-                                                    if (e==null) {
+                                                    getActivity().runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            closeProgressDialog();
+                                                        }
+                                                    });
+                                                    if (e == null) {
                                                         User user = list.get(0);
                                                         user.setPassword(password);
                                                         user.update(user.getObjectId(), null);
-                                                    }else if (e.getErrorCode()==205){
-                                                        Toast.makeText(mContext,"用户不存在",Toast.LENGTH_SHORT).show();
-                                                    }else {
-                                                        Toast.makeText(mContext,"重置失败",Toast.LENGTH_SHORT).show();
+                                                        setDialog("密码重置成功!");
+                                                    } else {
+                                                        BmobUtil.handleException(mContext, e, "重置失败");
                                                     }
                                                 }
                                             });
                                 }
-                            }else {
-                                if (mContext instanceof SignUpActivity) {
-                                    Toast.makeText(mContext, "注册失败，请重新发送验证码", Toast.LENGTH_SHORT).show();
-                                } else if (mContext instanceof ResetPasswordActivity) {
-                                    Toast.makeText(mContext, "重置密码失败", Toast.LENGTH_SHORT).show();
-                                }
+                            } else {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        closeProgressDialog();
+                                    }
+                                });
+                                BmobUtil.handleException(mContext, e, null);
                             }
                         }
                     });
 
                 }
-            } else if (!password.equals(passwordConfirmed)){
+            } else if (userAccount.equals("")) {
+                Toast.makeText(mContext, "手机号不能为空", Toast.LENGTH_SHORT).show();
+            } else if (!password.equals(passwordConfirmed)) {
                 Toast.makeText(mContext, "两次输入的密码不一致", Toast.LENGTH_SHORT).show();
-            }else if (password.equals("")){
-                Toast.makeText(mContext,"密码不能为空",Toast.LENGTH_SHORT).show();
+            } else if (password.equals("")) {
+                Toast.makeText(mContext, "密码不能为空", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -218,7 +241,7 @@ public class VerificationCodeFragment extends Fragment implements View.OnClickLi
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(mContext, LoginActivity.class);
-                        intent.putExtra("phone_number", phoneNumber.getText().toString());
+                        intent.putExtra("user_account", phoneNumber.getText().toString());
                         intent.putExtra("password", password.getText().toString());
                         startActivity(intent);
                         ((Activity) mContext).finish();
@@ -240,6 +263,22 @@ public class VerificationCodeFragment extends Fragment implements View.OnClickLi
         }
         if (passwordConfirmed != null) {
             passwordConfirmed.setHint(confirmHint);
+        }
+    }
+
+    private void showProgressDialog(String msg) {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(mContext);
+            progressDialog.setMessage(msg);
+            progressDialog.setCancelable(true);
+            progressDialog.setCanceledOnTouchOutside(false);
+        }
+        progressDialog.show();
+    }
+
+    private void closeProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
         }
     }
 }
