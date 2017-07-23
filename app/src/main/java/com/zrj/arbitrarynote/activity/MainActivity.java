@@ -15,10 +15,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button toLoginButton = (Button) findViewById(R.id.button_to_login);
+        Button arbitraryNote = (Button) findViewById(R.id.button_arbitrary_note);
         toLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        arbitraryNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,ArbitraryNoteActivity.class);
                 startActivity(intent);
                 finish();
             }

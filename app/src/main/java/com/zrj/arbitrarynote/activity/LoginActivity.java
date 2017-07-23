@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         login.setOnClickListener(this);
         rememberPass.setOnClickListener(this);
         Bmob.initialize(this, BmobUtil.APP_ID);
-        initControlsProperties();
+        initComponents();
     }
 
     @Override
@@ -114,7 +114,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    private void initControlsProperties() {
+    //初始化控件
+    private void initComponents() {
         Intent intent = getIntent();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String userAccountText = intent.getStringExtra("user_account");

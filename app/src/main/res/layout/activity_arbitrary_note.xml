@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <ScrollView
+        android:id="@+id/scroll_view_arbitrary_note"
+        android:layout_width="fill_parent"
+        android:layout_height="0.0dip"
+        android:layout_weight="1.0">
+        <LinearLayout
+            android:id="@+id/container_arbitrary_note"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edit_arbitrary_note"
+                android:textSize="16.0sp"
+                android:gravity="top"
+                android:background="@null"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="30.0dip"
+                android:minLines="22"
+                android:lineSpacingExtra="5.0dip" />
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary"
+        android:padding="5.0dip"
+        android:layout_width="fill_parent"
+        android:layout_height="40.0dip"
+        android:layout_weight="0.0">
+        <ImageView
+            android:id="@+id/gallery_arbitrary_note"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_gallery"
+            android:layout_weight="1.0" />
+        <ImageView
+            android:id="@+id/video_arbitrary_note"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_camera"
+            android:layout_weight="1.0" />
+        <ImageView android:id="@+id/more_function_arbitrary_note"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_more"
+            android:layout_weight="1.0" />
+        <ImageView
+            android:id="@+id/emoji_arbitrary_note"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_mood"
+            android:layout_weight="1.0" />
+        <ImageView
+            android:id="@+id/sound_record_arbitrary_note"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_record"
+            android:layout_weight="1.0" />
+    </LinearLayout>
+</LinearLayout>

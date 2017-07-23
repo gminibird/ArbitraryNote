@@ -9,7 +9,7 @@
         android:id="@+id/fragment_sign_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:name="com.zrj.arbitrarynote.fragment.VerificationCodeFragment"
+        android:name="com.zrj.arbitrarynote.fragment.LogOrSignFragment"
         tools:layout="@layout/fragment_verification" />
 
 </LinearLayout>

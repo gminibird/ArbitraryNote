@@ -43,7 +43,7 @@ import cn.bmob.v3.listener.UpdateListener;
  * Created by a on 2017/4/24.
  */
 
-public class VerificationCodeFragment extends Fragment implements View.OnClickListener {
+public class LogOrSignFragment extends Fragment implements View.OnClickListener {
 
     private TextView title;
     private EditText phoneNumber;
@@ -134,7 +134,7 @@ public class VerificationCodeFragment extends Fragment implements View.OnClickLi
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     if (s.length() == 11) {
                         requestSMSCode.setTextColor(getResources().getColor(R.color.colorBuleLight));
-                        requestSMSCode.setOnClickListener(VerificationCodeFragment.this);
+                        requestSMSCode.setOnClickListener(LogOrSignFragment.this);
                     } else {
                         requestSMSCode.setTextColor(getResources().getColor(R.color.colorEditHint));
                     }
@@ -152,8 +152,8 @@ public class VerificationCodeFragment extends Fragment implements View.OnClickLi
     private void commit() {
         if (phoneNumber != null && verificationCode != null && password != null && passwordConfirmed != null) {
             final String userAccount = phoneNumber.getText().toString();
-            final String password = VerificationCodeFragment.this.password.getText().toString();
-            String passwordConfirmed = VerificationCodeFragment.this.passwordConfirmed.getText().toString();
+            final String password = LogOrSignFragment.this.password.getText().toString();
+            String passwordConfirmed = LogOrSignFragment.this.passwordConfirmed.getText().toString();
             if (!password.equals("") && password.equals(passwordConfirmed)) {
                 String REGEX = "[^0-9][^a-z][^A-Z][^~`!@#$%^&*-=+_()?.,:;'\"]";
                 Pattern pattern = Pattern.compile(REGEX);

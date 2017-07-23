@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.zrj.arbitrarynote.R;
-import com.zrj.arbitrarynote.fragment.VerificationCodeFragment;
+import com.zrj.arbitrarynote.fragment.LogOrSignFragment;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -16,7 +16,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void initializeFragment(){
-        VerificationCodeFragment fragment = (VerificationCodeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_sign_up);
+        LogOrSignFragment fragment = (LogOrSignFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_sign_up);
         fragment.setTitle("注册");
         fragment.setEditTextHint("密码","确认密码");
     }

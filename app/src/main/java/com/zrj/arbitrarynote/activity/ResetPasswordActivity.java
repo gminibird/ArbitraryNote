@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.zrj.arbitrarynote.R;
-import com.zrj.arbitrarynote.fragment.VerificationCodeFragment;
+import com.zrj.arbitrarynote.fragment.LogOrSignFragment;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
@@ -16,7 +16,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
     }
 
     private void initializeFragment() {
-        VerificationCodeFragment fragment = (VerificationCodeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_reset_password);
+        LogOrSignFragment fragment = (LogOrSignFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_reset_password);
         fragment.setTitle("重置密码");
         fragment.setEditTextHint("新密码", "确认密码");
     }
