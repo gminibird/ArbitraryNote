@@ -65,7 +65,7 @@ public class BmobUtil {
                 break;
 
             case 10010:
-                Toast.makeText(context, "发送信息太过，请稍后再试", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "发送信息太过频繁，请稍后再试", Toast.LENGTH_SHORT).show();
                 break;
 
             default:

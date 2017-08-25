@@ -11,23 +11,26 @@
         android:layout_width="fill_parent"
         android:layout_height="0.0dip"
         android:layout_weight="1.0">
+
         <LinearLayout
             android:id="@+id/container_arbitrary_note"
-            android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <EditText
                 android:id="@+id/edit_arbitrary_note"
-                android:textSize="16.0sp"
-                android:gravity="top"
-                android:background="@null"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="30.0dip"
+                android:background="@null"
+                android:gravity="top"
+                android:lineSpacingExtra="5.0dip"
                 android:minLines="22"
-                android:lineSpacingExtra="5.0dip" />
+                android:textSize="16.0sp" />
         </LinearLayout>
     </ScrollView>
+
     <LinearLayout
         android:orientation="horizontal"
         android:background="@color/colorPrimary"

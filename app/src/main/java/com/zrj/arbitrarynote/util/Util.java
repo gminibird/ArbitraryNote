@@ -10,6 +10,10 @@ import android.os.Build;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * Created by Administrator on 2017/7/21.
  */
@@ -65,6 +69,13 @@ public class Util {
         String imagePath = cursor.getString(columnIndex);
         cursor.close();
         return imagePath;
+    }
+
+    //获取当前系统时间
+    public static String getCurrentTime(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date(System.currentTimeMillis());
+        return dateFormat.format(date);
     }
 
 }
