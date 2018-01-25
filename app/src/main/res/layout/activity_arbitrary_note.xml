@@ -29,10 +29,6 @@
                 android:lineSpacingExtra="5.0dip"
                 android:minLines="5"
                 android:textSize="16.0sp" />
-            <TextView
-                android:layout_height="50dp"
-                android:layout_width="match_parent"
-                android:text="ahahhaha"/>
         </LinearLayout>
     </ScrollView>
 

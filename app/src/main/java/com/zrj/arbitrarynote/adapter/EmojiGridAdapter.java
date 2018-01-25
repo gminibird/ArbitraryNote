@@ -51,9 +51,9 @@ public class EmojiGridAdapter extends BaseAdapter {
         if (convertView==null){
             Emoji emoji = mEmojiList.get(position);
             ImageView imageView = new ImageView(mActivity);
-            AbsListView.LayoutParams mParams = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            AbsListView.LayoutParams params = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     mKeyboardHeight/ (EmojiManager.ROW_NUM + 1));
-            imageView.setLayoutParams(mParams);
+            imageView.setLayoutParams(params);
             int paddingHorizontal = ViewGroup.LayoutParams.MATCH_PARENT / EmojiManager.COLUMN_NUM / 5;
             int mPaddingVertical = mKeyboardHeight / EmojiManager.ROW_NUM / 5;
             imageView.setPadding(paddingHorizontal, mPaddingVertical, paddingHorizontal, mPaddingVertical);
@@ -62,9 +62,12 @@ public class EmojiGridAdapter extends BaseAdapter {
             }else {
               imageView.setVisibility(View.INVISIBLE);
             }
+            MyLog.e("测试===================","null");
             return imageView;
         }
+        MyLog.e("测试===================","非null");
         return convertView;
+
     }
 
 

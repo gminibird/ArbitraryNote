@@ -14,5 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="随心记"/>
+    <Button
+        android:id="@+id/custom_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="自定义recycler"/>
 
 </LinearLayout>

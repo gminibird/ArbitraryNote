@@ -124,7 +124,7 @@ public class ArbitraryNoteActivity extends AppCompatActivity implements View.OnC
                 mDB.execSQL("update ArbitraryNote set content = ? and modify_time =? where id = ?",
                         new String[]{content, Util.getCurrentTime(), String.valueOf(id)});
             } else {
-                MyLog.e(CLASS_NAME, "么找到");
+                MyLog.e(CLASS_NAME, "没找到");
                 mDB.execSQL("insert into ArbitraryNote(content, create_time, modify_time) values(?,?,?)",
                         new String[]{content, Util.getCurrentTime(), Util.getCurrentTime()});
             }
